@@ -15,6 +15,8 @@
 </dl>
 
 <div class="form-actions">
+  <%= link_to "Test Connection",
+       test_connection_account_path(@account), :class => 'btn' %>
   <%= link_to t('.back', :default => t("helpers.links.back")),
               accounts_path, :class => 'btn'  %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),
