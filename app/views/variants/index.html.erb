@@ -1,0 +1,52 @@
+<%- model_class = Variant -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:product_id) %></th>
+      <th><%= model_class.human_attribute_name(:shopify_variant_id) %></th>
+      <th><%= model_class.human_attribute_name(:option1) %></th>
+      <th><%= model_class.human_attribute_name(:option2) %></th>
+      <th><%= model_class.human_attribute_name(:option3) %></th>
+      <th><%= model_class.human_attribute_name(:sku) %></th>
+      <th><%= model_class.human_attribute_name(:barcode) %></th>
+      <th><%= model_class.human_attribute_name(:price) %></th>
+      <th><%= model_class.human_attribute_name(:last_shopify_sync) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @variants.each do |variant| %>
+      <tr>
+        <td><%= link_to variant.id, variant_path(variant) %></td>
+        <td><%= variant.product_id %></td>
+        <td><%= variant.shopify_variant_id %></td>
+        <td><%= variant.option1 %></td>
+        <td><%= variant.option2 %></td>
+        <td><%= variant.option3 %></td>
+        <td><%= variant.sku %></td>
+        <td><%= variant.barcode %></td>
+        <td><%= variant.price %></td>
+        <td><%= variant.last_shopify_sync %></td>
+        <td><%=l variant.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_variant_path(variant), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      variant_path(variant),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_variant_path,
+            :class => 'btn btn-primary' %>

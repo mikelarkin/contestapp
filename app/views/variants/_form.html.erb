@@ -1,0 +1,62 @@
+<%= form_for @variant, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="control-group">
+    <%= f.label :product_id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :product_id, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :shopify_variant_id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :shopify_variant_id, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :option1, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :option1, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :option2, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :option2, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :option3, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :option3, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :sku, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :sku, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :barcode, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :barcode, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :price, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :price, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :last_shopify_sync, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :last_shopify_sync, :class => 'text_field' %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                variants_path, :class => 'btn' %>
+  </div>
+<% end %>

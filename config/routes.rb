@@ -1,9 +1,18 @@
 Contestapp::Application.routes.draw do
-resources :accounts do
-           member do
-             get 'test_connection'
-           end
-end
+  resources :variants
+
+  resources :products do
+    collection do
+      get 'import'
+    end
+    resources :variants
+  end
+
+  resources :accounts do
+    member do
+      get 'test_connection'
+    end
+  end
 
   get "dashboard/index"
 
