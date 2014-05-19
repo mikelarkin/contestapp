@@ -11,7 +11,8 @@ describe "orders/index" do
         :shopify_order_id => 1,
         :total => 1.5,
         :line_item_count => 2,
-        :financial_status => "Financial Status"
+        :financial_status => "Financial Status",
+        :created_at => DateTime.now
       ),
       stub_model(Order,
         :number => "Number",
@@ -21,7 +22,8 @@ describe "orders/index" do
         :shopify_order_id => 1,
         :total => 1.5,
         :line_item_count => 2,
-        :financial_status => "Financial Status"
+        :financial_status => "Financial Status",
+        :created_at => DateTime.now
       )
     ])
   end
