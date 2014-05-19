@@ -11,13 +11,42 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140518223705) do
+ActiveRecord::Schema.define(version: 20140519005258) do
 
   create_table "accounts", force: true do |t|
     t.string   "shopify_account_url"
     t.string   "shopify_api_key"
     t.string   "shopify_password"
     t.string   "shopify_shared_secret"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "order_items", force: true do |t|
+    t.integer  "order_id"
+    t.integer  "variant_id"
+    t.integer  "shopify_product_id"
+    t.integer  "shopify_variant_id"
+    t.float    "unit_price"
+    t.integer  "quantity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "order_items", ["order_id"], name: "index_order_items_on_order_id"
+  add_index "order_items", ["shopify_variant_id"], name: "index_order_items_on_shopify_variant_id"
+  add_index "order_items", ["variant_id"], name: "index_order_items_on_variant_id"
+
+  create_table "orders", force: true do |t|
+    t.string   "number"
+    t.string   "email"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "shopify_order_id"
+    t.datetime "order_date"
+    t.float    "total"
+    t.integer  "line_item_count"
+    t.string   "financial_status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
