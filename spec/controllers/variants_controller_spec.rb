@@ -20,6 +20,11 @@ require 'spec_helper'
 
 describe VariantsController do
 
+  before do
+    # We need an Account in the system
+    @account = FactoryGirl.create(:account)
+    @product = Product.create!(:name => "Test Product", :id => 1)
+  end
   # This should return the minimal set of attributes required to create a valid
   # Variant. As you add validations to Variant, be sure to
   # adjust the attributes here as well.
@@ -28,12 +33,12 @@ describe VariantsController do
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # VariantsController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  let(:valid_session) { {current_account_id: @account.id} }
 
   describe "GET index" do
     it "assigns all variants as @variants" do
       variant = Variant.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, {:product_id => 1}, valid_session
       assigns(:variants).should eq([variant])
     end
   end
@@ -41,14 +46,14 @@ describe VariantsController do
   describe "GET show" do
     it "assigns the requested variant as @variant" do
       variant = Variant.create! valid_attributes
-      get :show, {:id => variant.to_param}, valid_session
+      get :show, {:product_id => 1, :id => variant.to_param}, valid_session
       assigns(:variant).should eq(variant)
     end
   end
 
   describe "GET new" do
     it "assigns a new variant as @variant" do
-      get :new, {}, valid_session
+      get :new, {:product_id => 1}, valid_session
       assigns(:variant).should be_a_new(Variant)
     end
   end
@@ -56,7 +61,7 @@ describe VariantsController do
   describe "GET edit" do
     it "assigns the requested variant as @variant" do
       variant = Variant.create! valid_attributes
-      get :edit, {:id => variant.to_param}, valid_session
+      get :edit, {:product_id => 1, :id => variant.to_param}, valid_session
       assigns(:variant).should eq(variant)
     end
   end
@@ -65,19 +70,19 @@ describe VariantsController do
     describe "with valid params" do
       it "creates a new Variant" do
         expect {
-          post :create, {:variant => valid_attributes}, valid_session
+          post :create, {:product_id => 1, :variant => valid_attributes}, valid_session
         }.to change(Variant, :count).by(1)
       end
 
       it "assigns a newly created variant as @variant" do
-        post :create, {:variant => valid_attributes}, valid_session
+        post :create, {:product_id => 1, :variant => valid_attributes}, valid_session
         assigns(:variant).should be_a(Variant)
         assigns(:variant).should be_persisted
       end
 
       it "redirects to the created variant" do
-        post :create, {:variant => valid_attributes}, valid_session
-        response.should redirect_to(Variant.last)
+        post :create, {:product_id => 1, :variant => valid_attributes}, valid_session
+        response.should redirect_to([@product, Variant.last])
       end
     end
 
@@ -85,14 +90,14 @@ describe VariantsController do
       it "assigns a newly created but unsaved variant as @variant" do
         # Trigger the behavior that occurs when invalid params are submitted
         Variant.any_instance.stub(:save).and_return(false)
-        post :create, {:variant => { "product_id" => "invalid value" }}, valid_session
+        post :create, {:product_id => 1, :variant => { "product_id" => "invalid value" }}, valid_session
         assigns(:variant).should be_a_new(Variant)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Variant.any_instance.stub(:save).and_return(false)
-        post :create, {:variant => { "product_id" => "invalid value" }}, valid_session
+        post :create, {:product_id => 1, :variant => { "product_id" => "invalid value" }}, valid_session
         response.should render_template("new")
       end
     end
@@ -107,19 +112,19 @@ describe VariantsController do
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
         Variant.any_instance.should_receive(:update).with({ "product_id" => "1" })
-        put :update, {:id => variant.to_param, :variant => { "product_id" => "1" }}, valid_session
+        put :update, {:product_id => 1, :id => variant.to_param, :variant => { "product_id" => "1" }}, valid_session
       end
 
       it "assigns the requested variant as @variant" do
         variant = Variant.create! valid_attributes
-        put :update, {:id => variant.to_param, :variant => valid_attributes}, valid_session
+        put :update, {:product_id => 1, :id => variant.to_param, :variant => valid_attributes}, valid_session
         assigns(:variant).should eq(variant)
       end
 
       it "redirects to the variant" do
         variant = Variant.create! valid_attributes
-        put :update, {:id => variant.to_param, :variant => valid_attributes}, valid_session
-        response.should redirect_to(variant)
+        put :update, {:product_id => 1, :id => variant.to_param, :variant => valid_attributes}, valid_session
+        response.should redirect_to([@product, variant])
       end
     end
 
@@ -128,7 +133,7 @@ describe VariantsController do
         variant = Variant.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Variant.any_instance.stub(:save).and_return(false)
-        put :update, {:id => variant.to_param, :variant => { "product_id" => "invalid value" }}, valid_session
+        put :update, {:product_id => 1, :id => variant.to_param, :variant => { "product_id" => "invalid value" }}, valid_session
         assigns(:variant).should eq(variant)
       end
 
@@ -136,7 +141,7 @@ describe VariantsController do
         variant = Variant.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Variant.any_instance.stub(:save).and_return(false)
-        put :update, {:id => variant.to_param, :variant => { "product_id" => "invalid value" }}, valid_session
+        put :update, {:product_id => 1, :id => variant.to_param, :variant => { "product_id" => "invalid value" }}, valid_session
         response.should render_template("edit")
       end
     end
@@ -146,14 +151,14 @@ describe VariantsController do
     it "destroys the requested variant" do
       variant = Variant.create! valid_attributes
       expect {
-        delete :destroy, {:id => variant.to_param}, valid_session
+        delete :destroy, {:product_id => 1, :id => variant.to_param}, valid_session
       }.to change(Variant, :count).by(-1)
     end
 
     it "redirects to the variants list" do
       variant = Variant.create! valid_attributes
-      delete :destroy, {:id => variant.to_param}, valid_session
-      response.should redirect_to(variants_url)
+      delete :destroy, {:product_id => 1, :id => variant.to_param}, valid_session
+      response.should redirect_to(product_variants_url(@product))
     end
   end
 

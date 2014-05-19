@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140519005258) do
+ActiveRecord::Schema.define(version: 20140519032959) do
 
   create_table "accounts", force: true do |t|
     t.string   "shopify_account_url"
@@ -21,6 +21,20 @@ ActiveRecord::Schema.define(version: 20140519005258) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "contests", force: true do |t|
+    t.string   "name"
+    t.integer  "product_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.integer  "max_results"
+    t.integer  "order_id"
+    t.string   "product_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "contests", ["order_id"], name: "index_contests_on_order_id"
 
   create_table "order_items", force: true do |t|
     t.integer  "order_id"

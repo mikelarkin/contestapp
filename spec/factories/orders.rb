@@ -2,14 +2,24 @@
 
 FactoryGirl.define do
   factory :order do
-    number "MyString"
-    email "MyString"
-    first_name "MyString"
+    sequence :number do |n|
+      "Order #{n}"
+    end
+
+    sequence :email do |n|
+      "email-#{n}@gmail.com"
+    end
+
+    sequence :first_name do |n|
+      "Customer #{n}"
+    end
+
     last_name "MyString"
-    shopify_order_id 1
-    order_date "2014-05-18 20:51:41"
+
+    shopify_order_id {rand(100000)}
+    order_date "2013-11-05 02:02:56"
     total 1.5
     line_item_count 1
-    financial_status "MyString"
+    financial_status "paid"
   end
 end

@@ -1,9 +1,71 @@
-<%- content_for :sidebar do-%>
-       <h4>Welcome!</h4>
-       <p>This is the Dashboard for your account.  You'll be able to
-     view past contest results, as well as create new ones.</p>
-   <%- end -%>
-
-
-<h1>Dashboard#index</h1>
-<p>Find me in app/views/dashboard/index.html.erb</p>
+<%- model_class = Contest -%>
+<%- content_for :sidebar do -%>
+<h4>New Contest</h4>
+<p>Use the form below to run a new Contest. Fields marked with * are required.</p>
+  <%= form_for @contest, :url => create_contest_path do |f| %>
+    <div class="control-group">
+       <%= f.label :name, "Contest Name *"  %>
+      <div class="controls">
+        <%= f.text_field :name, :class => 'text_field', :required => true %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :product_id, "Type *" %>
+      <div class="controls">
+        <select id="contest_product_id" name="contest[product_id]" required="required">
+          <option>Any Product</option>
+          <optgroup label="Specific Product">
+            <%- @products.each do |product| -%>
+              <option value="<%= product.shopify_product_id %>"><%= product.name %></option>
+            <%- end -%>
+          </optgroup>
+        </select>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :start_date, "Order Date Range (optional)" %>
+      <div class="controls">
+        <%= f.text_field :start_date, :class => 'text_field' %>
+        <%= f.text_field :end_date, :class => 'text_field' %>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :max_results, "Max # (optional)" %>
+      <div class="controls">
+        <%= f.text_field :max_results, :class => 'text_field' %>
+      </div>
+    </div>
+    <div class="form-actions">
+      <input type="submit" value="Submit" class="btn"/>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+      root_path, :class => 'btn' %>
+    </div>
+    <!-- End form -->
+  <%- end -%>
+  <!-- End sidebar -->
+<%- end -%>
+<h1>Contests</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Criteria</th>
+      <th>Winner</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @contests.each do |contest| %>
+    <tr>
+      <td><%= contest.name %></td>
+      <td><%= contest.criteria %></td>
+      <% if contest.order.present? %>
+      <td>Order <%= link_to contest.order.number, order_path(contest.order) %>, <%= contest.order.first_name %> <%= contest.order.last_name %> (<%= mail_to contest.order.email, contest.order.email %>)</td>
+      <% else %>
+        <td>Error picking winner</td>
+      <% end %>
+      <td><%=l contest.created_at, format: :long %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
