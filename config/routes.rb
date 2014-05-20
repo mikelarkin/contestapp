@@ -1,5 +1,10 @@
 Contestapp::Application.routes.draw do
 
+   get "account"=> 'accounts#edit'
+   patch "account"=> 'accounts#update'
+   put "account"=> 'accounts#update'
+  
+
   # Webhook routes
   get "webhooks/uninstall"
   post "webhooks/uninstall"

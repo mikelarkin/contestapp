@@ -1,0 +1,35 @@
+<% if @account.paid?  %>
+<p>Thank you for being a Paid member!</p>
+  <%= form_for @account, :html => { :class => 'form-horizontal' } do |f| %>
+    <p>A $1 charge will show up on your Shopify bill each month. You can downgrade anytime by unchecking the box below and clicking Update Account.</p>
+    <p></p>
+    <div class="control-group">
+      <%= f.label :paid, "Paid Account", :class => 'control-label' %>
+      <div class="controls">
+        <%= f.check_box :paid, :class => 'text_field' %>
+      </div>
+    </div>
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+      account_path, :class => 'btn' %>
+    </div>
+  <% end %>
+<% else %>
+  <%= form_for @account, :html => { :class => 'form-horizontal' } do |f| %>
+    <p>You can use this App for free and create up to <%= MAX_CONTESTS_PER_MONTH %> Contests a month.  However, if you need more than that you'll need to pay a hefty $1 fee per month! </p>
+    <p>Check the box below and click Update Account to be taken to Shopify to verify the upgrade.  The recurring charge will automatically appear on your Shopify bill.</p>
+    <div class="control-group">
+      <%= f.label :paid, "Paid Account", :class => 'control-label' %>
+      <div class="controls">
+        <%= f.check_box :paid, :class => 'text_field' %>
+      </div>
+    </div>
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+      account_path, :class => 'btn' %>
+    </div>
+  <% end %>
+  
+<% end %>

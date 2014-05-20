@@ -10,12 +10,8 @@
 #  shopify_shop_id     :integer
 #  shop_owner          :string(255)
 #  email               :string(255)
-#  timezone            :string(255)
 #  shopify_shop_name   :string(255)
 #  paid                :boolean          default(FALSE)
-#  active              :boolean          default(TRUE)
-#  last_billed_at      :datetime
-#
 
 require 'spec_helper'
 

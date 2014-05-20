@@ -29,9 +29,6 @@ describe OrdersController do
   # adjust the attributes here as well.
   let(:valid_attributes) { { "number" => "MyString", "email" => "test@example.com", "shopify_order_id" => 123456, "order_date" => DateTime.now, "account_id" => @account.id } }
 
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # OrdersController. Be sure to keep this updated too.
   let(:valid_session) { {current_account_id: @account.id} }
 
   describe "GET index" do

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140520022656) do
+ActiveRecord::Schema.define(version: 20140520113121) do
 
   create_table "accounts", force: true do |t|
     t.string   "shopify_account_url"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20140520022656) do
     t.string   "shopify_shop_name"
     t.string   "shop_owner"
     t.string   "email"
+    t.boolean  "paid"
   end
 
   add_index "accounts", ["email"], name: "index_accounts_on_email"

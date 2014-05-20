@@ -1,48 +1,53 @@
 <%- model_class = Contest -%>
 <%- content_for :sidebar do -%>
-<h4>New Contest</h4>
-<p>Use the form below to run a new Contest. Fields marked with * are required.</p>
-  <%= form_for @contest, :url => create_contest_path do |f| %>
-    <div class="control-group">
-       <%= f.label :name, "Contest Name *"  %>
-      <div class="controls">
-        <%= f.text_field :name, :class => 'text_field', :required => true %>
-      </div>
-    </div>
-    <div class="control-group">
-      <%= f.label :product_id, "Type *" %>
-      <div class="controls">
-        <select id="contest_product_id" name="contest[product_id]" required="required">
-          <option>Any Product</option>
-          <optgroup label="Specific Product">
-            <%- @products.each do |product| -%>
-              <option value="<%= product.shopify_product_id %>"><%= product.name %></option>
-            <%- end -%>
-          </optgroup>
-        </select>
-      </div>
-    </div>
-    <div class="control-group">
-      <%= f.label :start_date, "Order Date Range (optional)" %>
-      <div class="controls">
-        <%= f.text_field :start_date, :class => 'text_field' %>
-        <%= f.text_field :end_date, :class => 'text_field' %>
-      </div>
-    </div>
-    <div class="control-group">
-      <%= f.label :max_results, "Max # (optional)" %>
-      <div class="controls">
-        <%= f.text_field :max_results, :class => 'text_field' %>
-      </div>
-    </div>
-    <div class="form-actions">
-      <input type="submit" value="Submit" class="btn"/>
-      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-      root_path, :class => 'btn' %>
-    </div>
-    <!-- End form -->
-  <%- end -%>
-  <!-- End sidebar -->
+<h4><%= t('dashboard.sidebar.title') %></h4>
+<% if current_account.can_create_contests? %>
+<p><%= t('dashboard.sidebar.content') %></p>
+<%= form_for @contest, :url => create_contest_path do |f| %>
+<div class="control-group">
+  <%= f.label :name, "Contest Name *"  %>
+  <div class="controls">
+    <%= f.text_field :name, :class => 'text_field', :required => true %>
+  </div>
+</div>
+<div class="control-group">
+  <%= f.label :product_id, "Type *" %>
+  <div class="controls">
+    <select id="contest_product_id" name="contest[product_id]" required="required">
+      <option>Any Product</option>
+      <optgroup label="Specific Product">
+        <%- @products.each do |product| -%>
+        <option value="<%= product.shopify_product_id %>"><%= product.name %></option>
+        <%- end -%>
+      </optgroup>
+    </select>
+  </div>
+</div>
+<div class="control-group">
+  <%= f.label :start_date, "Order Date Range (optional)" %>
+  <div class="controls">
+    <%= f.text_field :start_date, :class => 'text_field' %>
+    <%= f.text_field :end_date, :class => 'text_field' %>
+  </div>
+</div>
+<div class="control-group">
+  <%= f.label :max_results, "Max # (optional)" %>
+  <div class="controls">
+    <%= f.text_field :max_results, :class => 'text_field' %>
+  </div>
+</div>
+<div class="form-actions">
+  <input type="submit" value="Submit" class="btn"/>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+  root_path, :class => 'btn' %>
+</div>
+<!-- End form -->
+<%- end -%>
+<% else %>
+<p> Uh oh!  Looks like you've used up your monthly allotment of Contests!  If you need more, <%= link_to "Click here to upgrade your account", account_path %>.
+<% end %>
+<p>Having trouble?  <a href="<%= test_connection_path %>">Click here to test your connection to Shopify</a>.</p>
+<!-- End sidebar -->
 <%- end -%>
 <h1>Contests</h1>
 <table class="table table-striped">
@@ -62,7 +67,7 @@
       <% if contest.order.present? %>
       <td>Order <%= link_to contest.order.number, order_path(contest.order) %>, <%= contest.order.first_name %> <%= contest.order.last_name %> (<%= mail_to contest.order.email, contest.order.email %>)</td>
       <% else %>
-        <td>Error picking winner</td>
+      <td>Error picking winner</td>
       <% end %>
       <td><%=l contest.created_at, format: :long %></td>
     </tr>

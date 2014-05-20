@@ -18,5 +18,7 @@ FactoryGirl.define do
     sequence :email do |n|
       "owner_#{n}@example.com"
     end
+
+    paid true
   end
 end

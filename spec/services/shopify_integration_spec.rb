@@ -425,7 +425,6 @@ context "update_account" do
       @account.should_receive(:shopify_shop_id=).with(@shop_response.id)
       @account.should_receive(:shop_owner=).with(@shop_response.shop_owner)
       @account.should_receive(:email=).with(@shop_response.email)
-      @account.should_receive(:timezone=).with(@shop_response.timezone)
 
       @account.should_receive(:save)
 
