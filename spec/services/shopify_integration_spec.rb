@@ -5,49 +5,26 @@ describe ShopifyIntegration do
   context "initialize" do
     it "should raise exception if required parameters are not supplied" do
       expect {ShopifyIntegration.new(
-                :api_key => "123abc",
-                :shared_secret => "sharedsecret",
                 :url => "http://url.to.store",
-                :password => "secretsecret"
+                :password => "test-secret"
       )}.to_not raise_error
 
       expect {ShopifyIntegration.new(
-                :shared_secret => "sharedsecret",
-                :url => "http://url.to.store",
-                :password => "secretsecret"
-      )}.to raise_error
-
-      expect {ShopifyIntegration.new(
-                :api_key => "123abc",
-                :url => "http://url.to.store",
-                :password => "secretsecret"
-      )}.to raise_error
-
-      expect {ShopifyIntegration.new(
-                :api_key => "123abc",
-                :shared_secret => "sharedsecret",
-                :password => "secretsecret"
-      )}.to raise_error
-
-      expect {ShopifyIntegration.new(
-                :api_key => "123abc",
-                :shared_secret => "sharedsecret",
                 :url => "http://url.to.store"
       )}.to raise_error
 
-
       expect {ShopifyIntegration.new(
-                :api_key => "",
-                :shared_secret => "sharedsecret",
-                :url => "http://url.to.store",
-                :password => "secretsecret"
+                :password => "test-secret"
       )}.to raise_error
 
       expect {ShopifyIntegration.new(
-                :api_key => nil,
-                :shared_secret => "sharedsecret",
+                :url => "",
+                :password => "test-secret"
+      )}.to raise_error
+
+      expect {ShopifyIntegration.new(
                 :url => "http://url.to.store",
-                :password => "secretsecret"
+                :password => ""
       )}.to raise_error
 
       expect {ShopifyIntegration.new()}.to raise_error
@@ -56,16 +33,12 @@ describe ShopifyIntegration do
 
     it "should set instance_variables" do
       shopify_integration = ShopifyIntegration.new(
-        :api_key => "123abc",
-        :shared_secret => "sharedsecret",
         :url => "http://url.to.store",
-        :password => "secretsecret"
+        :password => "test-secret"
       )
 
-      shopify_integration.api_key.should == "123abc"
-      shopify_integration.shared_secret.should == "sharedsecret"
       shopify_integration.url.should == "http://url.to.store"
-      shopify_integration.password.should == "secretsecret"
+      shopify_integration.password.should == "test-secret"
 
     end
 
@@ -76,9 +49,9 @@ describe ShopifyIntegration do
     before do
       @shopify_integration = ShopifyIntegration.new(
         :api_key => "123abc",
-        :shared_secret => "sharedsecret",
+        :shared_secret => "test-secret",
         :url => "http://url.to.store",
-        :password => "secretsecret"
+        :password => "test-secret"
       )
 
       @session = OpenStruct.new()
@@ -86,8 +59,8 @@ describe ShopifyIntegration do
 
     it "should activate a session with Shopify" do
 
-      ShopifyAPI::Session.should_receive(:setup).with(:api_key => "123abc", :secret => "sharedsecret")
-      ShopifyAPI::Session.should_receive(:new).with("http://url.to.store", "secretsecret").and_return(@session)
+      ShopifyAPI::Session.should_receive(:setup).with(:api_key => "123abc", :secret => "test-secret")
+      ShopifyAPI::Session.should_receive(:new).with("http://url.to.store", "test-secret").and_return(@session)
       ShopifyAPI::Base.should_receive(:activate_session).with(@session)
       @shopify_integration.connect
     end
@@ -99,9 +72,9 @@ describe ShopifyIntegration do
 
       @shopify_integration = ShopifyIntegration.new(
         :api_key => "123abc",
-        :shared_secret => "sharedsecret",
+        :shared_secret => "test-secret",
         :url => "http://url.to.store",
-        :password => "secretsecret"
+        :password => "test-secret"
       )
 
       @product1 = OpenStruct.new(:id => 1234, :name => "Another Product", :variants => [OpenStruct.new(:id => 1, :sku => "11111", :title => "VT", barcode: "1231231", price: 10.3)])
@@ -258,9 +231,9 @@ describe ShopifyIntegration do
 
       @shopify_integration = ShopifyIntegration.new(
         :api_key => "123abc",
-        :shared_secret => "sharedsecret",
+        :shared_secret => "test-secret",
         :url => "http://url.to.store",
-        :password => "secretsecret"
+        :password => "test-secret"
       )
 
       @order1 = OpenStruct.new(:id => 1234,

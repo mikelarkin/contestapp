@@ -67,9 +67,7 @@ class ProductsController < ApplicationController
     # For now we'll use the first Account in the database
     account = Account.first
     # Instantiate the ShopifyIntegration class
-    shopify_integration = ShopifyIntegration.new(api_key: account.shopify_api_key,
-                                                 shared_secret: account.shopify_shared_secret,
-                                                 url: account.shopify_account_url,
+    shopify_integration = ShopifyIntegration.new(url: account.shopify_account_url,
                                                  password: account.shopify_password)
 
     respond_to do |format|

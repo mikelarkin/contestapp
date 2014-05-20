@@ -4,6 +4,12 @@ Contestapp::Application.configure do
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
+
+  SHOPIFY_API_KEY = "08ecca5db5c819561aeea7859cde2627"
+   SHOPIFY_SHARED_SECRET = "89b69c64272f35b7a3e13cdf59f1bf3c"
+   DOMAIN = "http://localhost:3000"
+
+   
   config.cache_classes = false
 
   # Do not eager load code on boot.

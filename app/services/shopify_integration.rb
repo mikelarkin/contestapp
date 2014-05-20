@@ -1,10 +1,10 @@
 class ShopifyIntegration
 
-  attr_accessor :api_key, :shared_secret, :url, :password
+  attr_accessor :url, :password
 
   def initialize(params)
     # Ensure that all the parameters are passed in
-    %w{api_key shared_secret url password}.each do |field|
+    %w{url password}.each do |field|
       raise ArgumentError.new("params[:#{field}] is required") if params[field.to_sym].blank?
 
       # If present, then set as an instance variable
@@ -16,8 +16,8 @@ class ShopifyIntegration
   def connect
 
     # Initialize the gem
-    ShopifyAPI::Session.setup({api_key: @api_key, secret: @shared_secret})
-
+    ShopifyAPI::Session.setup({api_key: SHOPIFY_API_KEY, secret: SHOPIFY_SHARED_SECRET})
+    
     # Instantiate the session
     session = ShopifyAPI::Session.new(@url, @password)
 
