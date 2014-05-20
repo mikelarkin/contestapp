@@ -1,33 +1,42 @@
 class AccountsController < ApplicationController
-    before_action :set_account, only: [:edit, :update]
-    before_action :require_login
+  before_action :set_account
+  before_action :require_login
 
-    # GET /account
-    def edit
+  # GET /account
+  def edit
+  end
+
+  # PATCH/PUT /account
+  # PATCH/PUT /account
+  def update
+    # See if they are upgrading to Paid
+    shopify_service = ShopifyIntegration.new(url: @account.shopify_account_url,
+                                             password: @account.shopify_password,
+                                             account_id: @account.id)
+
+    shopify_service.connect
+
+    if params[:account][:paid] == true || params[:account][:paid].to_i == 1
+      if @account.paid?
+        render 'edit'
+      else
+        # TODO: set the flag to false to really charge the card
+        redirect_to shopify_service.create_charge(1, true)
+      end
+    else
+      # If not, just re-render the form
+      if shopify_service.delete_charge(@account.charge_id)
+        puts "asdfasdfsdfasdfsdfasdfsdfsdf"
+        @account.update_attribute(:paid, false)
+      end
+
+      render 'edit'
     end
+  end
 
-    # PATCH/PUT /account
-    # PATCH/PUT /account
-    def update
-        respond_to do |format|
-            if @account.update(account_params)
-                format.html { redirect_to account_path, notice: 'Account was successfully updated.' }
-                format.json { head :no_content }
-            else
-                format.html { render action: 'edit' }
-                format.json { render json: @account.errors, status: :unprocessable_entity }
-            end
-        end
-    end
+  private
 
-    private
-
-    def set_account
-        @account = current_account
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def account_params
-        params.require(:account).permit(:paid)
-    end
+  def set_account
+    @account = current_account
+  end
 end

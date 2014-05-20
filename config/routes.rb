@@ -40,6 +40,8 @@ Contestapp::Application.routes.draw do
   get 'shopify/install' => 'shopify#install'
   post 'shopify/install' => 'shopify#install'
 
+  get 'shopify/confirm' => 'shopify#confirm'
+
 
   # You can have the root of your site routed with "root"
   root 'dashboard#index'

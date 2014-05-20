@@ -67,5 +67,24 @@ class ShopifyController < ApplicationController
 
   end
 
+  def confirm
+    # Retrieve the Account related to the charge
+    account = Account.find_by_charge_id(params[:charge_id].to_i)
 
+    # Retrieve the ApplicationCharge
+    charge = ShopifyAPI::RecurringApplicationCharge.find(params[:charge_id].to_i)
+
+    # If it's been accepted, activate it and update the account
+    if charge.status == "accepted"
+      charge.activate
+      account.update_attribute(:paid, true)
+      message = "Your account has been updated!"
+    else
+      # If the payment has been denied, then mark the account as unpaid
+      account.update_attribute(:paid, false)
+      message = "Oops! Looks like the charge didn't go through.  Please try again."
+
+    end
+    redirect_to account_path, notice: message and return
+  end
 end

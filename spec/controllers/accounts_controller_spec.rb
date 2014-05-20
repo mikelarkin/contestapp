@@ -21,6 +21,11 @@ describe AccountsController do
 
   describe "PUT 'update'" do
     it "returns http success" do
+
+      ShopifyAPI::RecurringApplicationCharge.should_receive(:create).with(:name=>"Contest App Paid Membership", price: 1.0,
+                                                                 return_url: "#{DOMAIN}/shopify/confirm",
+                                                                 test: true).and_return(mock("ShopifyRecurringCharge", id: 1012637313, confirmation_url: "http://test.host/account"))
+
       put 'update', {:account => { "paid" => true}}, valid_session
       response.should redirect_to "http://test.host/account"
     end

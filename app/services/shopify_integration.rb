@@ -12,6 +12,39 @@ class ShopifyIntegration
     end
   end
 
+  def create_charge(amount, is_test)
+    return_url = "#{DOMAIN}/shopify/confirm"
+    # Create the charge
+    charge = ShopifyAPI::RecurringApplicationCharge.create(
+      name: "Contest App Paid Membership",
+      price: amount.to_f,
+      return_url: return_url,
+      test: is_test ? true : nil
+    )
+    # Store the charge id for future reference
+    account = Account.find @account_id
+    account.update_attribute(:charge_id, charge.id)
+    # Return the unique confirmation URL
+    return charge.confirmation_url
+  end
+
+  # This method destroys the recurring charge in Shopify
+  # This method destroys the recurring charge in Shopify
+  def delete_charge(charge_id)
+    begin
+      charge=ShopifyAPI::RecurringApplicationCharge.find(charge_id)
+    rescue
+    end
+
+    # Ensure that the charge exists
+    # trying to destroy it
+    if charge.present?
+      return charge.destroy
+    else
+      return true
+    end
+  end
+
   # Uses the provided credentials to create an active Shopify session
   def connect
 
