@@ -21,6 +21,7 @@ group :development, :test do
   gem 'rspec-rails' # testing framework
   gem "factory_girl_rails" # use factories, not fixtures
   gem "capybara" # simulate browser activity
+  gem "fakeweb"
   # Automated testing
   gem 'guard' # automated execution of test suite upon change
   gem "guard-rspec" # guard integration with rspec
