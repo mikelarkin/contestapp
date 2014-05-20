@@ -1,5 +1,6 @@
 class Order < ActiveRecord::Base
   has_many :order_items
+  belongs_to :account
 
   # This method constructs the query based on
   # the passed-in parameters

@@ -4,7 +4,7 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all
+    @orders = current_account.orders.all
   end
 
   # GET /orders/1
@@ -14,7 +14,7 @@ class OrdersController < ApplicationController
 
   # GET /orders/new
   def new
-    @order = Order.new
+    @order = current_account.orders.new
   end
 
   # GET /orders/1/edit
@@ -24,7 +24,7 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
-    @order = Order.new(order_params)
+    @order = current_account.orders.new(order_params)
 
     respond_to do |format|
       if @order.save
@@ -65,12 +65,10 @@ class OrdersController < ApplicationController
   # GET /orders/import.json
   def import
 
-    # For now we'll use the first Account in the database
-    account = Account.first
-
     # Connect to Shopify
-    shopify_integration = ShopifyIntegration.new(url: account.shopify_account_url,
-                                                 password: account.shopify_password)
+    shopify_integration = ShopifyIntegration.new(url: current_account.shopify_account_url,
+                                                 password: current_account.shopify_password,
+                                                 account_id: current_account.id)
 
     respond_to do |format|
       if shopify_integration.connect
@@ -88,13 +86,13 @@ class OrdersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_order
-      @order = Order.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_order
+    @order = current_account.orders.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def order_params
-      params.require(:order).permit(:number, :email, :first_name, :last_name, :shopify_order_id, :order_date, :total, :line_item_count, :financial_status)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def order_params
+    params.require(:order).permit(:number, :email, :first_name, :last_name, :shopify_order_id, :order_date, :total, :line_item_count, :financial_status)
+  end
 end

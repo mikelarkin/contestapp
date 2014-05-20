@@ -1,0 +1,26 @@
+<% content_for :sidebar do %>
+<h4><%= t('login.sidebar.title') %></h4>
+<p><%= t('login.sidebar.content') %></p>
+<% end %>
+<h1>Login</h1>
+<form action="#" method="post">
+    <div>
+        <label for="shop">Shopify Subdomain (<strong>subdomain</strong>.myshopify.com)</label>
+        <input type="text" name="shop" id="shop" required="required"/><br/>
+    </div>
+    <div>
+        <br/>
+        <input type="submit" value="Install"/>
+    </div>
+</form>
+<% if Rails.env.development? %>
+<h1>Developer Login</h1>
+<form action="<%= sessions_create_path %>" method="post">
+    <select id="account_id" name="account_id"/>
+        <% Account.all.each do |account| %>
+        <option value="<%= account.id %>"><%= account.shopify_account_url %></option>
+        <% end %>
+    </select>
+    <input type="submit" value="Login"/>
+</form>
+<% end %>

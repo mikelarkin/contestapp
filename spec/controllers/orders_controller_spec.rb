@@ -20,21 +20,32 @@ require 'spec_helper'
 
 describe OrdersController do
 
+  before do
+    # We need an Account in the system
+    @account = FactoryGirl.create(:account)
+  end
   # This should return the minimal set of attributes required to create a valid
   # Order. As you add validations to Order, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "number" => "MyString" } }
+  let(:valid_attributes) { { "number" => "MyString", "email" => "test@example.com", "shopify_order_id" => 123456, "order_date" => DateTime.now, "account_id" => @account.id } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # OrdersController. Be sure to keep this updated too.
-  let(:valid_session) { {} }
+  let(:valid_session) { {current_account_id: @account.id} }
 
   describe "GET index" do
-    it "assigns all orders as @orders" do
-      order = Order.create! valid_attributes
+    it "assigns scoped orders as @orders" do
+
+      # Create 2 orders for the current account
+      order1 = FactoryGirl.create(:order, account_id: @account.id )
+      order2 = FactoryGirl.create(:order, account_id: @account.id )
+
+      # And one for a different account
+      order3 = FactoryGirl.create(:order, account_id: @account.id + 10)
+
       get :index, {}, valid_session
-      assigns(:orders).should eq([order])
+      assigns(:orders).should eq([order1, order2])
     end
   end
 
