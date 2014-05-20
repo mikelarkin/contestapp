@@ -3,7 +3,7 @@
 <p><%= t('login.sidebar.content') %></p>
 <% end %>
 <h1>Login</h1>
-<form action="#" method="post">
+<form action="<%= shopify_authorize_path %>" method="post">
     <div>
         <label for="shop">Shopify Subdomain (<strong>subdomain</strong>.myshopify.com)</label>
         <input type="text" name="shop" id="shop" required="required"/><br/>

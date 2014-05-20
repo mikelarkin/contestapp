@@ -5,8 +5,8 @@ Contestapp::Application.configure do
   # every request. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
 
-  SHOPIFY_API_KEY = "08ecca5db5c819561aeea7859cde2627"
-   SHOPIFY_SHARED_SECRET = "89b69c64272f35b7a3e13cdf59f1bf3c"
+   SHOPIFY_API_KEY = "a0652d6d026c50b8cb69b73b32c6e7da"
+   SHOPIFY_SHARED_SECRET = "f5c1a191238d02158a415c661cdb9c5c"
    DOMAIN = "http://localhost:3000"
 
    
