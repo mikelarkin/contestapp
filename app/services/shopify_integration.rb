@@ -41,7 +41,6 @@ class ShopifyIntegration
     account.shopify_shop_name = shop.name
     account.shop_owner = shop.shop_owner
     account.email = shop.email
-    account.timezone = shop.timezone
 
     account.save
 
