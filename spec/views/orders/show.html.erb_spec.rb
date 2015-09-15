@@ -23,7 +23,6 @@ describe "orders/show" do
     rendered.should match(/Last Name/)
     rendered.should match(/1/)
     rendered.should match(/1.5/)
-    rendered.should match(/2/)
     rendered.should match(/Financial Status/)
   end
 end

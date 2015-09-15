@@ -37,7 +37,6 @@ describe "orders/index" do
     assert_select "tr>td", :text => "Last Name".to_s, :count => 2
     assert_select "tr>td", :text => 1.to_s, :count => 2
     assert_select "tr>td", :text => 1.5.to_s, :count => 2
-    assert_select "tr>td", :text => 2.to_s, :count => 2
     assert_select "tr>td", :text => "Financial Status".to_s, :count => 2
   end
 end

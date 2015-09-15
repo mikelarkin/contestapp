@@ -25,7 +25,6 @@ describe "orders/edit" do
       assert_select "input#order_last_name[name=?]", "order[last_name]"
       assert_select "input#order_shopify_order_id[name=?]", "order[shopify_order_id]"
       assert_select "input#order_total[name=?]", "order[total]"
-      assert_select "input#order_line_item_count[name=?]", "order[line_item_count]"
       assert_select "input#order_financial_status[name=?]", "order[financial_status]"
     end
   end
